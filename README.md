@@ -5,7 +5,7 @@
 ## Features
 
 - Declarative manifest operation definitions using YAML
-- Support for both Helm charts and Kubectl manifests
+- Support for Helm charts, Kubectl manifests, and Kustomize directories
 - Sequential installation and reverse-order uninstallation
 
 ## Installation
@@ -37,7 +37,7 @@ $ kind create cluster --config test-cluster.yaml
 
 ### Creating a configuration file
 
-See `examples` directory for sample configurations. You can define both Helm and kubectl operations.
+See `examples` directory for sample configurations. You can define Helm, kubectl, and Kustomize operations.
 
 ### Installing operations
 

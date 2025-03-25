@@ -21,8 +21,8 @@ func Delete(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 	}
 
 	helmExecutor := executor.NewHelmExecutor(cmdExecutor, logger)
-
 	kubectlExecutor := executor.NewKubectlExecutor(cmdExecutor, logger)
+	kustomizeExecutor := executor.NewKustomizeExecutor(cmdExecutor, logger)
 
 	operations := cfg.Operations
 	logger.Info("Starting to delete %d operations in reverse order", len(operations))
@@ -39,6 +39,8 @@ func Delete(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 			err = helmExecutor.UninstallChart(ctx, operation)
 		case "kubectl":
 			err = kubectlExecutor.DeleteManifest(ctx, operation)
+		case "kustomize":
+			err = kustomizeExecutor.DeleteKustomize(ctx, operation)
 		default:
 			err = fmt.Errorf("unsupported operation type: %s", operation.Type)
 		}

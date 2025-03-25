@@ -5,11 +5,12 @@ type Config struct {
 }
 
 type Operator struct {
-	Name          string         `yaml:"name"`
-	Type          string         `yaml:"type"` // "helm" or "kubectl"
-	Namespace     string         `yaml:"namespace"`
-	HelmConfig    *HelmConfig    `yaml:"helmConfig,omitempty"`
-	KubectlConfig *KubectlConfig `yaml:"kubectlConfig,omitempty"`
+	Name            string           `yaml:"name"`
+	Type            string           `yaml:"type"` // "helm", "kubectl", or "kustomize"
+	Namespace       string           `yaml:"namespace"`
+	HelmConfig      *HelmConfig      `yaml:"helmConfig,omitempty"`
+	KubectlConfig   *KubectlConfig   `yaml:"kubectlConfig,omitempty"`
+	KustomizeConfig *KustomizeConfig `yaml:"kustomizeConfig,omitempty"`
 }
 
 type HelmConfig struct {
@@ -26,6 +27,10 @@ type RepoInfo struct {
 
 type KubectlConfig struct {
 	ManifestFile string `yaml:"manifestFile"`
+}
+
+type KustomizeConfig struct {
+	Path string `yaml:"path"`
 }
 
 func (o *Operator) Validate() error {
@@ -50,6 +55,13 @@ func (o *Operator) Validate() error {
 		}
 		if o.KubectlConfig.ManifestFile == "" {
 			return ErrMissingManifestFile
+		}
+	case "kustomize":
+		if o.KustomizeConfig == nil {
+			return ErrMissingKustomizeConfig
+		}
+		if o.KustomizeConfig.Path == "" {
+			return ErrMissingKustomizePath
 		}
 	default:
 		return ErrUnsupportedOperatorType

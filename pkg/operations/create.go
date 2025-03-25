@@ -21,8 +21,8 @@ func Create(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 	}
 
 	helmExecutor := executor.NewHelmExecutor(cmdExecutor, logger)
-
 	kubectlExecutor := executor.NewKubectlExecutor(cmdExecutor, logger)
+	kustomizeExecutor := executor.NewKustomizeExecutor(cmdExecutor, logger)
 
 	logger.Info("Starting to create %d operations", len(cfg.Operations))
 
@@ -42,6 +42,11 @@ func Create(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 			err = kubectlExecutor.ApplyManifest(ctx, operation)
 			if err == nil {
 				err = kubectlExecutor.VerifyInstallation(ctx, operation)
+			}
+		case "kustomize":
+			err = kustomizeExecutor.ApplyKustomize(ctx, operation)
+			if err == nil {
+				err = kustomizeExecutor.VerifyInstallation(ctx, operation)
 			}
 		default:
 			err = fmt.Errorf("unsupported operation type: %s", operation.Type)
