@@ -25,7 +25,7 @@ type RepoInfo struct {
 }
 
 type KubectlConfig struct {
-	ManifestUrl string `yaml:"manifestUrl"`
+	ManifestFile string `yaml:"manifestFile"`
 }
 
 func (o *Operator) Validate() error {
@@ -48,8 +48,8 @@ func (o *Operator) Validate() error {
 		if o.KubectlConfig == nil {
 			return ErrMissingKubectlConfig
 		}
-		if o.KubectlConfig.ManifestUrl == "" {
-			return ErrMissingManifestUrl
+		if o.KubectlConfig.ManifestFile == "" {
+			return ErrMissingManifestFile
 		}
 	default:
 		return ErrUnsupportedOperatorType

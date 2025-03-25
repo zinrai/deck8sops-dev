@@ -26,9 +26,9 @@ func (k *KubectlExecutor) ApplyManifest(ctx context.Context, operator config.Ope
 	}
 
 	k.logger.Info("Applying manifest for %s from %s",
-		operator.Name, operator.KubectlConfig.ManifestUrl)
+		operator.Name, operator.KubectlConfig.ManifestFile)
 
-	cmd := fmt.Sprintf("kubectl apply -f %s", operator.KubectlConfig.ManifestUrl)
+	cmd := fmt.Sprintf("kubectl apply -f %s", operator.KubectlConfig.ManifestFile)
 	_, err := k.cmdExecutor.Execute(ctx, cmd)
 	if err != nil {
 		return fmt.Errorf("failed to apply manifest: %w", err)
@@ -44,9 +44,9 @@ func (k *KubectlExecutor) DeleteManifest(ctx context.Context, operator config.Op
 	}
 
 	k.logger.Info("Deleting manifest for %s from %s",
-		operator.Name, operator.KubectlConfig.ManifestUrl)
+		operator.Name, operator.KubectlConfig.ManifestFile)
 
-	cmd := fmt.Sprintf("kubectl delete -f %s", operator.KubectlConfig.ManifestUrl)
+	cmd := fmt.Sprintf("kubectl delete -f %s", operator.KubectlConfig.ManifestFile)
 	_, err := k.cmdExecutor.Execute(ctx, cmd)
 	if err != nil {
 		return fmt.Errorf("failed to delete manifest: %w", err)

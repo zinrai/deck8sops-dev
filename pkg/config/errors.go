@@ -9,7 +9,7 @@ var (
 	ErrInvalidHelmRepo         = errors.New("helm repository name and URL must be specified")
 	ErrMissingHelmChart        = errors.New("helm chart name must be specified")
 	ErrMissingKubectlConfig    = errors.New("kubectlConfig is required for kubectl type operators")
-	ErrMissingManifestUrl      = errors.New("manifestUrl is required for kubectl type operators")
+	ErrMissingManifestFile     = errors.New("manifestFile is required for kubectl type operators")
 	ErrFileNotFound            = errors.New("config file not found")
 	ErrInvalidYAML             = errors.New("invalid YAML format")
 )
