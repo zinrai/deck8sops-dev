@@ -26,32 +26,32 @@ func Create(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 
 	logger.Info("Starting to create %d operations", len(cfg.Operations))
 
-	for i, operator := range cfg.Operations {
-		logger.Info("[%d/%d] Processing operator: %s (type: %s)",
-			i+1, len(cfg.Operations), operator.Name, operator.Type)
+	for i, operation := range cfg.Operations {
+		logger.Info("[%d/%d] Processing operation: %s (type: %s)",
+			i+1, len(cfg.Operations), operation.Name, operation.Type)
 
 		var err error
 
-		switch operator.Type {
+		switch operation.Type {
 		case "helm":
-			err = helmExecutor.InstallChart(ctx, operator)
+			err = helmExecutor.InstallChart(ctx, operation)
 			if err == nil {
-				err = helmExecutor.VerifyInstallation(ctx, operator)
+				err = helmExecutor.VerifyInstallation(ctx, operation)
 			}
 		case "kubectl":
-			err = kubectlExecutor.ApplyManifest(ctx, operator)
+			err = kubectlExecutor.ApplyManifest(ctx, operation)
 			if err == nil {
-				err = kubectlExecutor.VerifyInstallation(ctx, operator)
+				err = kubectlExecutor.VerifyInstallation(ctx, operation)
 			}
 		default:
-			err = fmt.Errorf("unsupported operator type: %s", operator.Type)
+			err = fmt.Errorf("unsupported operation type: %s", operation.Type)
 		}
 
 		if err != nil {
-			return fmt.Errorf("failed to create operator %s: %w", operator.Name, err)
+			return fmt.Errorf("failed to create operation %s: %w", operation.Name, err)
 		}
 
-		logger.Info("Successfully created operator: %s", operator.Name)
+		logger.Info("Successfully created operation: %s", operation.Name)
 	}
 
 	return nil

@@ -3,8 +3,8 @@ package config
 import "errors"
 
 var (
-	ErrEmptyOperatorName       = errors.New("operator name cannot be empty")
-	ErrUnsupportedOperatorType = errors.New("unsupported operator type, must be 'helm' or 'kubectl'")
+	ErrEmptyOperatorName       = errors.New("operation name cannot be empty")
+	ErrUnsupportedOperatorType = errors.New("unsupported operation type, must be 'helm' or 'kubectl'")
 	ErrMissingHelmConfig       = errors.New("helmConfig is required for helm type operations")
 	ErrInvalidHelmRepo         = errors.New("helm repository name and URL must be specified")
 	ErrMissingHelmChart        = errors.New("helm chart name must be specified")

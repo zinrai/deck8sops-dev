@@ -41,72 +41,72 @@ func (h *HelmExecutor) AddRepository(ctx context.Context, repo config.RepoInfo) 
 	return nil
 }
 
-func (h *HelmExecutor) InstallChart(ctx context.Context, operator config.Operator) error {
-	if operator.HelmConfig == nil {
-		return fmt.Errorf("helm config is nil for operator %s", operator.Name)
+func (h *HelmExecutor) InstallChart(ctx context.Context, operation config.Operator) error {
+	if operation.HelmConfig == nil {
+		return fmt.Errorf("helm config is nil for operation %s", operation.Name)
 	}
 
-	err := h.AddRepository(ctx, operator.HelmConfig.Repo)
+	err := h.AddRepository(ctx, operation.HelmConfig.Repo)
 	if err != nil {
 		return err
 	}
 
 	cmd := fmt.Sprintf("helm upgrade --install %s %s/%s --namespace %s --create-namespace",
-		operator.Name,
-		operator.HelmConfig.Repo.Name,
-		operator.HelmConfig.Chart,
-		operator.Namespace)
+		operation.Name,
+		operation.HelmConfig.Repo.Name,
+		operation.HelmConfig.Chart,
+		operation.Namespace)
 
-	if operator.HelmConfig.Version != "" {
-		cmd += fmt.Sprintf(" --version %s", operator.HelmConfig.Version)
+	if operation.HelmConfig.Version != "" {
+		cmd += fmt.Sprintf(" --version %s", operation.HelmConfig.Version)
 	}
 
-	if operator.HelmConfig.ValuesFile != "" {
-		if !h.cmdExecutor.FileExists(operator.HelmConfig.ValuesFile) {
-			return fmt.Errorf("values file not found: %s", operator.HelmConfig.ValuesFile)
+	if operation.HelmConfig.ValuesFile != "" {
+		if !h.cmdExecutor.FileExists(operation.HelmConfig.ValuesFile) {
+			return fmt.Errorf("values file not found: %s", operation.HelmConfig.ValuesFile)
 		}
-		cmd += fmt.Sprintf(" --values %s", operator.HelmConfig.ValuesFile)
+		cmd += fmt.Sprintf(" --values %s", operation.HelmConfig.ValuesFile)
 	}
 
 	h.logger.Info("Installing Helm chart %s/%s as %s in namespace %s",
-		operator.HelmConfig.Repo.Name,
-		operator.HelmConfig.Chart,
-		operator.Name,
-		operator.Namespace)
+		operation.HelmConfig.Repo.Name,
+		operation.HelmConfig.Chart,
+		operation.Name,
+		operation.Namespace)
 
 	_, err = h.cmdExecutor.Execute(ctx, cmd)
 	if err != nil {
 		return fmt.Errorf("failed to install helm chart: %w", err)
 	}
 
-	h.logger.Info("Successfully installed Helm chart %s", operator.Name)
+	h.logger.Info("Successfully installed Helm chart %s", operation.Name)
 	return nil
 }
 
-func (h *HelmExecutor) UninstallChart(ctx context.Context, operator config.Operator) error {
+func (h *HelmExecutor) UninstallChart(ctx context.Context, operation config.Operator) error {
 	h.logger.Info("Uninstalling Helm chart %s from namespace %s",
-		operator.Name, operator.Namespace)
+		operation.Name, operation.Namespace)
 
-	cmd := fmt.Sprintf("helm uninstall %s --namespace %s", operator.Name, operator.Namespace)
+	cmd := fmt.Sprintf("helm uninstall %s --namespace %s", operation.Name, operation.Namespace)
 	_, err := h.cmdExecutor.Execute(ctx, cmd)
 	if err != nil {
 		return fmt.Errorf("failed to uninstall helm chart: %w", err)
 	}
 
-	h.logger.Info("Successfully uninstalled Helm chart %s", operator.Name)
+	h.logger.Info("Successfully uninstalled Helm chart %s", operation.Name)
 	return nil
 }
 
-func (h *HelmExecutor) VerifyInstallation(ctx context.Context, operator config.Operator) error {
-	h.logger.Info("Verifying installation for %s in namespace %s", operator.Name, operator.Namespace)
+func (h *HelmExecutor) VerifyInstallation(ctx context.Context, operation config.Operator) error {
+	h.logger.Info("Verifying installation for %s in namespace %s", operation.Name, operation.Namespace)
 
-	releaseCmd := fmt.Sprintf("helm status %s --namespace %s", operator.Name, operator.Namespace)
+	releaseCmd := fmt.Sprintf("helm status %s --namespace %s", operation.Name, operation.Namespace)
 	_, err := h.cmdExecutor.Execute(ctx, releaseCmd)
 	if err != nil {
 		return fmt.Errorf("helm release verification failed: %w", err)
 	}
 
-	podCmd := fmt.Sprintf("kubectl get all -n %s", operator.Namespace)
+	podCmd := fmt.Sprintf("kubectl get all -n %s", operation.Namespace)
 	_, err = h.cmdExecutor.Execute(ctx, podCmd)
 	if err != nil {
 		return fmt.Errorf("pod verification failed: %w", err)

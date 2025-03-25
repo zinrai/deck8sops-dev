@@ -38,7 +38,7 @@ func main() {
 
 	switch cmd {
 	case "create":
-		logger.Info("Starting operator creation")
+		logger.Info("Starting operation creation")
 		if err := operations.Create(ctx, cfg, logger); err != nil {
 			logger.Error("Error creating operations: %v", err)
 			os.Exit(1)
@@ -46,7 +46,7 @@ func main() {
 		logger.Info("All operations created successfully")
 
 	case "delete":
-		logger.Info("Starting operator deletion")
+		logger.Info("Starting operation deletion")
 		if err := operations.Delete(ctx, cfg, logger); err != nil {
 			logger.Error("Error deleting operations: %v", err)
 			os.Exit(1)
