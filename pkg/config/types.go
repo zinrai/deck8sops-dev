@@ -1,7 +1,7 @@
 package config
 
 type Config struct {
-	Operators []Operator `yaml:"operators"`
+	Operations []Operator `yaml:"operations"`
 }
 
 type Operator struct {

@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	configFile := flag.String("config", "operators.yaml", "Config file path")
+	configFile := flag.String("config", "operations.yaml", "Config file path")
 	verbose := flag.Bool("verbose", false, "Enable verbose output")
 
 	if len(os.Args) < 2 {
@@ -40,18 +40,18 @@ func main() {
 	case "create":
 		logger.Info("Starting operator creation")
 		if err := operations.Create(ctx, cfg, logger); err != nil {
-			logger.Error("Error creating operators: %v", err)
+			logger.Error("Error creating operations: %v", err)
 			os.Exit(1)
 		}
-		logger.Info("All operators created successfully")
+		logger.Info("All operations created successfully")
 
 	case "delete":
 		logger.Info("Starting operator deletion")
 		if err := operations.Delete(ctx, cfg, logger); err != nil {
-			logger.Error("Error deleting operators: %v", err)
+			logger.Error("Error deleting operations: %v", err)
 			os.Exit(1)
 		}
-		logger.Info("All operators deleted successfully")
+		logger.Info("All operations deleted successfully")
 
 	default:
 		logger.Error("Unknown command: %s", cmd)
@@ -65,11 +65,11 @@ func printUsage() {
 	fmt.Println("\nUsage:")
 	fmt.Println("  deck8sops-dev [command] [flags]")
 	fmt.Println("\nAvailable Commands:")
-	fmt.Println("  create      Create operators defined in config file")
-	fmt.Println("  delete      Delete operators defined in config file")
+	fmt.Println("  create      Create operations defined in config file")
+	fmt.Println("  delete      Delete operations defined in config file")
 	fmt.Println("\nFlags:")
-	fmt.Println("  -config string   Config file path (default \"operators.yaml\")")
+	fmt.Println("  -config string   Config file path (default \"operations.yaml\")")
 	fmt.Println("  -verbose         Enable verbose output")
 	fmt.Println("\nExample:")
-	fmt.Println("  deck8sops-dev create -config=my-operators.yaml")
+	fmt.Println("  deck8sops-dev create -config=my-operations.yaml")
 }

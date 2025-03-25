@@ -1,4 +1,4 @@
-operators:
+operations:
   - name: kyverno
     type: helm
     namespace: kyverno

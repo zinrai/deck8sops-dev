@@ -1,10 +1,10 @@
 # deck8sops-dev
 
-`deck8sops-dev` is a tool designed to set up multiple Kubernetes Operators declaratively on a [kind](https://github.com/kubernetes-sigs/kind) based Kubernetes cluster. Define your required operators and their configurations in a YAML file and apply them with a single command.
+`deck8sops-dev` is a tool designed to declaratively manage Kubernetes manifest operations on a [kind](https://github.com/kubernetes-sigs/kind) based Kubernetes cluster. Define your required operations and their configurations in a YAML file and apply them with a single command.
 
 ## Features
 
-- Declarative operator definitions using YAML
+- Declarative manifest operation definitions using YAML
 - Support for both Helm charts and Kubectl manifests
 - Sequential installation and reverse-order uninstallation
 
@@ -37,18 +37,18 @@ $ kind create cluster --config test-cluster.yaml
 
 ### Creating a configuration file
 
-See `examples`
+See `examples` directory for sample configurations. You can define both Helm and kubectl operations.
 
-### Installing operators
+### Installing operations
 
 ```bash
-$ deck8sops-dev create -config examples/kyverno/install.yaml
+$ deck8sops-dev create -config examples/kyverno/operations.yaml
 ```
 
-### Uninstalling operators
+### Uninstalling operations
 
 ```bash
-$ deck8sops-dev delete -config examples/kyverno/install.yaml
+$ deck8sops-dev delete -config examples/kyverno/operations.yaml
 ```
 
 ## License

@@ -27,7 +27,7 @@ func ReadFromFile(filePath string) (*Config, error) {
 		return nil, fmt.Errorf("%w: %v", ErrInvalidYAML, err)
 	}
 
-	for i, operator := range config.Operators {
+	for i, operator := range config.Operations {
 		if err := operator.Validate(); err != nil {
 			return nil, fmt.Errorf("invalid operator '%s' at index %d: %w", operator.Name, i, err)
 		}

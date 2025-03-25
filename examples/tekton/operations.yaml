@@ -1,5 +1,5 @@
 # https://github.com/tektoncd/pipeline
-operators:
+operations:
   - name: tekton-pipeline
     type: kubectl
     namespace: tekton-pipelines

@@ -24,13 +24,13 @@ func Delete(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 
 	kubectlExecutor := executor.NewKubectlExecutor(cmdExecutor, logger)
 
-	operators := cfg.Operators
-	logger.Info("Starting to delete %d operators in reverse order", len(operators))
+	operations := cfg.Operations
+	logger.Info("Starting to delete %d operations in reverse order", len(operations))
 
-	for i := len(operators) - 1; i >= 0; i-- {
-		operator := operators[i]
+	for i := len(operations) - 1; i >= 0; i-- {
+		operator := operations[i]
 		logger.Info("[%d/%d] Deleting operator: %s (type: %s)",
-			len(operators)-i, len(operators), operator.Name, operator.Type)
+			len(operations)-i, len(operations), operator.Name, operator.Type)
 
 		var err error
 

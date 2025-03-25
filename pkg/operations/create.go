@@ -24,11 +24,11 @@ func Create(ctx context.Context, cfg *config.Config, logger *utils.Logger) error
 
 	kubectlExecutor := executor.NewKubectlExecutor(cmdExecutor, logger)
 
-	logger.Info("Starting to create %d operators", len(cfg.Operators))
+	logger.Info("Starting to create %d operations", len(cfg.Operations))
 
-	for i, operator := range cfg.Operators {
+	for i, operator := range cfg.Operations {
 		logger.Info("[%d/%d] Processing operator: %s (type: %s)",
-			i+1, len(cfg.Operators), operator.Name, operator.Type)
+			i+1, len(cfg.Operations), operator.Name, operator.Type)
 
 		var err error
 
